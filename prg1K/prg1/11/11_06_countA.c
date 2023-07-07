@@ -4,7 +4,7 @@ int main(int argc, const char * argv[]){
     printf("input(20文字以下): ");
     scanf("%s",inputText);
     int count = 0;
-    int count_a;
+    int count_a=0;
     while (inputText[count] != '\0')
     {
         if(inputText[count] == 'a'){
