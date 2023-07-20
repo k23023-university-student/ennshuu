@@ -3,7 +3,7 @@ CFLAGS = -Wall
 INSTALL_DIR = /usr/local/bin
 
 # サブディレクトリのリスト
-SUBDIRS = 1 2 3 4 5 6 7 8 9 10 11 12 13
+SUBDIRS = 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 
 # サブディレクトリ内のソースコードを検索
 SOURCES := $(shell find $(SUBDIRS) -name "*.c")
