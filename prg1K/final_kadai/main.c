@@ -1,5 +1,6 @@
 #include <stdio.h>
-void fileLoader(char[],char* []);//第一引数はパス、第二引数は読み取ったファイルの値
+#include <string.h>
+int fileLoader(char[],char* []);//第一引数はパス、第二引数は読み取ったファイルの値
 int main(int argc, const char * argv[]){
     //キーボードからの入力 すべき処理を格納する変数
     /*
@@ -23,14 +24,40 @@ int main(int argc, const char * argv[]){
         printf("\n\n\x1b[0m"); //黄色文字ここまで
         printf("上記より行う処理を入力せよ> ");
         scanf("%d",&whatToDo);
+        char saa[212];
+        char* uu[21];
+        strcpy(saa,"test.txt");
+        fileLoader(saa,uu);
+        switch (whatToDo)//作業内容で分岐する
+        {
+        case 1:
+            break;
+        case 2:
+            break; 
+        case 3:
+            break;
+        
+        default:
+            break;
+        }
     }
     return 0;
 }
 
-void fileLoader(char path[] ,char* result[]){
+int fileLoader(char path[] ,char* result[]){//体重データファイル読み込み関数 読み込み成功時 返り値0
+    FILE *fp;
+    fp = fopen(path,"r");
+    if(fp == NULL){//ファイル読み込みエラー発生時
+        printf("file load error");
+        return 1;
+    }
+    char data[256];
+     while(fgets(data,sizeof(data),fp)){
 
-    // FILE *fp;
-    // fp = fopen("text.txt","r");
-    // fgets(*result,10000,fp);
-    // fclose(fp);
+         printf("%s",data);
+
+
+     }
+    fclose(fp);
+    return 0;
 }
