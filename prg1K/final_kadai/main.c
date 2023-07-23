@@ -11,6 +11,7 @@ int fileLoader(char*,char(*)[]);
 void fileSaver(char*,char*);
 double getAverage(double (*) ,int);
 double getBmi(double, double);
+void parseCsv(double[MAX_DAY][4],char*,int);
 
 void showStatistic(void);
 void addData(void);
@@ -58,7 +59,7 @@ int main(int argc, const char * argv[]){
     return 0;
 }
 
-int fileLoader(char* path ,char (*result)[LINE_LENGTH]){//体重データファイル読み込み関数 行数を返す
+int fileLoader(char* path ,char (*result)[LINE_LENGTH]){//体重データファイル読み込み関数
     char lineData[LINE_LENGTH];
     int count = 0;
 
@@ -83,6 +84,8 @@ int fileLoader(char* path ,char (*result)[LINE_LENGTH]){//体重データファ�
 
     return count;//行数を返す
 }
+
+
 void fileSaver(char *path,char *content){
     FILE *fp;
     fp = fopen(path,"w");
@@ -93,6 +96,8 @@ void fileSaver(char *path,char *content){
     fprintf(fp,"%s",content);
     fclose(fp);
 }
+
+
 double getAverage(double *array, int size){//平均を求める関数
     double sum=0;//合計値
     for(int i=0;i<size;i++){
@@ -100,9 +105,33 @@ double getAverage(double *array, int size){//平均を求める関数
     }
     return sum/size;
 }
+
+
 double getBmi(double weight,double height){//BMIを求める関数 身長はcmで渡す
     return weight/((height/100)*(height/100));
 }
+
+
+void parseCsv(double input[MAX_DAY][4],char *result,int size){//二次元配列からCSVに変換する関数
+    int currentIndex = 0;//文字列追加用インデックス  
+    for(int i=0;i<size;i++){
+        for(int j=0;j<4;j++){
+            currentIndex += sprintf(result,"%f",input[i][j]);
+            //printf("%s\n",result);
+            if(j != 3){//最後の列以外にコンマを追加、インデックスを１進める
+                result[currentIndex++] = ',';
+            }
+        }
+        result[currentIndex++] = '\n';
+
+    
+    }
+
+}
+
+
+
+
 void showStatistic(void){//統計を表示する関数
 
     char path[MAX_PATH] = FILE_NAME;
@@ -142,6 +171,7 @@ void showStatistic(void){//統計を表示する関数
             ,getBmi(weightAverage,tall));
 }
 
+
 void addData(void){
     printf("ファイルの読み込み中\n");
 
@@ -165,7 +195,8 @@ void addData(void){
 
     char answer;
     printf("今日の日付を記録として使用しますか？(y/n)> ");
-    scanf("%c",&answer);
+    rewind(stdin);//標準入力のバッファをクリア
+    answer = getchar();
     double year,month,day,weight;//全てdouble型
 
     if(answer == 'y'){
@@ -175,7 +206,7 @@ void addData(void){
         year = localTime->tm_year + 1900;
         month = localTime->tm_mon + 1;
         day = localTime->tm_mday;
-
+        printf("今日は %d年 %d月 %d日です。この値を使用します。\n",(int)year,(int)month,(int)day);
     }else{
 
         printf("年を入力してください> ");
@@ -194,5 +225,7 @@ void addData(void){
     dataArray[line][1] = month;
     dataArray[line][2] = day;
     dataArray[line][3] = weight;
-
+    char res[MAX_PATH];
+    parseCsv(dataArray,res,line+1);
+    //printf("%s",res);
 }
