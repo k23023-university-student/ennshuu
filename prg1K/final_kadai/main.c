@@ -116,15 +116,12 @@ void parseCsv(double input[MAX_DAY][4],char *result,int size){//二次元配列�
     int currentIndex = 0;//文字列追加用インデックス  
     for(int i=0;i<size;i++){
         for(int j=0;j<4;j++){
-            currentIndex += sprintf(result,"%f",input[i][j]);
-            //printf("%s\n",result);
+            currentIndex += sprintf(&result[currentIndex],"%f",input[i][j]);//resultの後ろに追加
             if(j != 3){//最後の列以外にコンマを追加、インデックスを１進める
                 result[currentIndex++] = ',';
             }
         }
         result[currentIndex++] = '\n';
-
-    
     }
 
 }
@@ -227,5 +224,4 @@ void addData(void){
     dataArray[line][3] = weight;
     char res[MAX_PATH];
     parseCsv(dataArray,res,line+1);
-    //printf("%s",res);
 }
