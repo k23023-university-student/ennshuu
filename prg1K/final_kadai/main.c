@@ -11,10 +11,12 @@ int fileLoader(char*,char(*)[]);
 void fileSaver(char*,char*);
 double getAverage(double (*) ,int);
 double getBmi(double, double);
-void parseCsv(double[MAX_DAY][4],char*,int);
+void convertToCsv(double[MAX_DAY][4],char*,int);
+int parseCsv(char*,double[]);
 
 void showStatistic(void);
 void addData(void);
+void editData(void);
 int main(int argc, const char * argv[]){
     //キーボードからの入力 すべき処理を格納する変数
     /*
@@ -46,6 +48,7 @@ int main(int argc, const char * argv[]){
             addData();
             break;
         case 2:
+            editData();
             break; 
         case 3:
             showStatistic();
@@ -112,20 +115,53 @@ double getBmi(double weight,double height){//BMIを求める関数 身長はcm�
 }
 
 
-void parseCsv(double input[MAX_DAY][4],char *result,int size){//二次元配列からCSVに変換する関数
-    int currentIndex = 0;//文字列追加用インデックス  
+void convertToCsv(double input[MAX_DAY][4],char *result,int size){//二次元配列からCSVに変換する関数
+
+    int currentIndex = 0;//文字列追加用インデックス 
+
+
     for(int i=0;i<size;i++){
+
+        int isContinue = 0;//内部ループを抜けて外側continueを実行するための変数
         for(int j=0;j<4;j++){
+            if(input[i][0] == -1){//年に-1がマークされていたらその行を無しとする
+                isContinue = 1;
+                break;
+            }
+
             currentIndex += sprintf(&result[currentIndex],"%f",input[i][j]);//resultの後ろに追加
             if(j != 3){//最後の列以外にコンマを追加、インデックスを１進める
                 result[currentIndex++] = ',';
             }
+
         }
-        result[currentIndex++] = '\n';
+
+
+        if(isContinue == 1){
+            isContinue = 0;
+            continue;
+        }
+
+        result[currentIndex++] = '\n';//改行を追加し、インデックスを進める
+
     }
+    result[currentIndex] = '\0';//最後にnull字を追加
 
 }
+int parseCsv(char* str,double result[4]){
+    int commmaCount=0;//月日体重の区切りコンマのカウント用変数
+        char devChar[] = ",";//分離する文字
+        char* token = strtok(str, devChar);//先頭からコンマで分離する
 
+        while (token != NULL) {//コンマの数だけ分離する
+
+            result[commmaCount] = strtod(token,NULL);
+            token = strtok(NULL, devChar);//分離
+            commmaCount++;
+
+        }
+    return commmaCount;
+}
 
 
 
@@ -134,26 +170,20 @@ void showStatistic(void){//統計を表示する関数
     char path[MAX_PATH] = FILE_NAME;
     char loadedData[MAX_DAY][LINE_LENGTH];
     int line = fileLoader(path,loadedData);
-    double tall;//身長を格納する変数
+    double height;//身長を格納する変数
 
     printf("平均値からBMIを求めます。身長(cm)を入力してください> ");
-    scanf("%lf",&tall);
+    scanf("%lf",&height);
     double weightList[MAX_DAY];
 
 
     for (int i = 0; i < line; i++) {//ファイルの行数だけ繰り返す
-
-        int commmaCount=0;//月日体重の区切りコンマのカウント用変数
-        char devChar[] = ",";//分離する文字
-        char* token = strtok(loadedData[i], devChar);//先頭からコンマで分離する
-
-        while (token != NULL) {//コンマの数だけ分離する
-            if(WEIGHT_COLUMN == commmaCount){
-                weightList[i] = strtod(token,NULL);//char[]型からdouble型へ
-                printf("%f\n",weightList[i]);
+        double valueData[4] = {};
+        int rowCount = parseCsv(loadedData[i],valueData);
+        for(int j=0;j<rowCount;j++){
+            if(j == WEIGHT_COLUMN){
+                weightList[i] = valueData[j];
             }
-            token = strtok(NULL, devChar);//分離
-            commmaCount++;
         }
 
     }
@@ -165,7 +195,7 @@ void showStatistic(void){//統計を表示する関数
             "あなたの平均BMIは %fです。\n"
             "------------\n"
             ,weightAverage
-            ,getBmi(weightAverage,tall));
+            ,getBmi(weightAverage,height));
 }
 
 
@@ -179,13 +209,10 @@ void addData(void){
     double dataArray[MAX_DAY][4];//月日体重を格納する二次元配列
 
     for(int i=0;i<line;i++){
-        char devChar[] = ",";//分離する文字
-        char* token = strtok(loadedData[i], devChar);//先頭からコンマで分離する
-        int commmaCount = 0;
-        while (token != NULL) {//コンマの数だけ分離する
-            dataArray[i][commmaCount] = strtod(token,NULL);
-            token = strtok(NULL, devChar);//分離
-            commmaCount++;
+        double valueData[4] = {};
+        int rowCount = parseCsv(loadedData[i],valueData);
+        for(int j=0;j<rowCount;j++){
+            dataArray[i][j] = valueData[j];
         }
     }
 
@@ -214,7 +241,7 @@ void addData(void){
         scanf("%lf",&day);
         
     }
-
+    rewind(stdin);//バッファをクリア
     printf("体重を入力してください> ");
     scanf("%lf",&weight);
     
@@ -222,6 +249,69 @@ void addData(void){
     dataArray[line][1] = month;
     dataArray[line][2] = day;
     dataArray[line][3] = weight;
-    char res[MAX_PATH];
-    parseCsv(dataArray,res,line+1);
+    char res[LINE_LENGTH];//CSVへの変換後文字列を格納する変数
+    convertToCsv(dataArray,res,line+1);
+    fileSaver(FILE_NAME,res);
+    printf("追加しました\n");
+}
+
+void editData(void){
+
+    double year,month;
+
+    printf("編集対象のデータが含まれる年を入力してください> ");
+    scanf("%lf",&year);
+    printf("編集対象のデータが含まれる月を入力してください(1-12)> ");
+    scanf("%lf",&month);
+
+    char loadedData[MAX_DAY][LINE_LENGTH];
+    double dataArray[MAX_DAY][4];
+    int line = fileLoader(FILE_NAME,loadedData);
+
+
+    for(int i=0;i<line;i++){
+
+        double valueData[4] = {};
+        int rowCount = parseCsv(loadedData[i],valueData);
+
+        for(int j=0;j<rowCount;j++){
+            dataArray[i][j] = valueData[j];
+        }
+
+        if(dataArray[i][0] == year && dataArray[i][1] == month){
+            printf("%d 年 %d月 %d日 体重: %fkg 編集ID: %d\n",(int)dataArray[i][0]
+            ,(int)dataArray[i][1]
+            ,(int)dataArray[i][2]
+            ,dataArray[i][3],i);
+        }
+
+
+    }
+
+    int editId;
+    char deleteOrEdit;
+
+    printf("上記の中から編集IDを選択してください> ");
+    scanf("%d",&editId);
+    rewind(stdin);//バッファをクリア
+    printf("指定した項目を削除する場合はd、編集する場合はeと入力してください> ");
+    deleteOrEdit = getchar();
+
+    if(deleteOrEdit == 'd'){
+        dataArray[editId][0] = -1;//年に-1を設定して削除としてマーク
+    }else{
+        printf("修正後の年を入力してください> ");
+        scanf("%lf",&dataArray[editId][0]);
+        printf("修正後の月を入力してください> ");
+        scanf("%lf",&dataArray[editId][1]);
+        printf("修正後の日を入力してください> ");
+        scanf("%lf",&dataArray[editId][2]);
+        printf("修正後の体重を入力してください> ");
+        scanf("%lf",&dataArray[editId][3]);
+    }
+
+    char res[LINE_LENGTH];//CSVへの変換後文字列を格納する変数
+    convertToCsv(dataArray,res,line);
+    fileSaver(FILE_NAME,res);
+    printf("処理を完了しました\n");
 }
