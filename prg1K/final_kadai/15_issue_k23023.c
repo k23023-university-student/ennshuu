@@ -16,7 +16,9 @@ int parseCsv(char*,double[]);
 
 void showStatistic(void);
 void addData(void);
+void showData(void);
 void editData(void);
+void showGraph(void);
 int main(int argc, const char * argv[]){
     //キーボードからの入力 すべき処理を格納する変数
     /*
@@ -35,8 +37,9 @@ int main(int argc, const char * argv[]){
         "[0]: プログラムの終了\n"
         "[1]: 体重の新規入力\n"
         "[2]: 入力値の編集\n"
-        "[3]: 平均値統計データ表示\n"
-        "[4]: グラフ表示");
+        "[3]: データ一覧表示\n"
+        "[4]: 全期間平均データ表示\n"
+        "[5]: グラフ表示(gnuplotをインストールしてください)");
         printf("\n\n\x1b[0m"); //黄色文字ここまで
         printf("上記より行う処理を入力せよ> ");
         scanf("%d",&whatToDo);
@@ -51,9 +54,14 @@ int main(int argc, const char * argv[]){
             editData();
             break; 
         case 3:
+            showData();
+            break;
+        case 4:
             showStatistic();
             break;
-        
+        case 5:
+            showGraph();
+            break;
         default:
             printf("無効な処理: %d\n",whatToDo);
             break;
@@ -314,4 +322,77 @@ void editData(void){
     convertToCsv(dataArray,res,line);
     fileSaver(FILE_NAME,res);
     printf("処理を完了しました\n");
+}
+void showGraph(void){
+
+    //ファイルの読み出し
+    char path[MAX_PATH] = FILE_NAME;
+    char loadedData[MAX_DAY][LINE_LENGTH];
+    int line = fileLoader(path,loadedData);
+    int x_count = 0;//x軸の数字のカウント用変数
+
+    int startYear,startMonth,startDay;
+    int endYear,endMonth,endDay;
+
+    printf("いつからのグラフを表示しますか(年 月 日)> ");
+
+    scanf("%d %d %d",&startYear,&startMonth,&startDay);
+
+    printf("いつまでのグラフを表示しますか(年 月 日)> ");
+
+    scanf("%d %d %d",&endYear,&endMonth,&endDay);
+    
+    FILE *gnuplotPipe = popen("gnuplot -persist", "w");
+    if (gnuplotPipe == NULL) {
+        printf("gnuplot実行失敗。\n");
+        return;
+        
+    }
+    fprintf(gnuplotPipe, "plot '-' with lines title 'Weights'\n");
+
+
+    for (int i = 0; i < line; i++) {//ファイルの行数だけ繰り返す
+
+        double valueData[4] = {};
+        int rowCount = parseCsv(loadedData[i],valueData);
+
+
+            if(valueData[0] >= startYear && valueData[1] >= startMonth && valueData[2] >= startDay){
+
+                if(valueData[0] <= endYear && valueData[1] <= endMonth && valueData[2] <= endDay){//指定された期間内の値を抽出
+
+                    fprintf(gnuplotPipe, "%d %lf\n", x_count, valueData[3]);
+                    x_count++;
+                }
+            }
+
+    }
+    fprintf(gnuplotPipe, "e\n");
+    pclose(gnuplotPipe);    
+}
+void showData(){//指定した期間内のデータを一覧表示する関数
+    char path[MAX_PATH] = FILE_NAME;
+    char loadedData[MAX_DAY][LINE_LENGTH];
+    int line = fileLoader(path,loadedData);
+    int startYear,startMonth,startDay;
+    int endYear,endMonth,endDay;
+
+    printf("いつからのデータを表示しますか(年 月 日)> ");
+
+    scanf("%d %d %d",&startYear,&startMonth,&startDay);
+
+    printf("いつまでのデータを表示しますか(年 月 日)> ");
+
+    scanf("%d %d %d",&endYear,&endMonth,&endDay);
+    for (int i = 0; i < line; i++) {//ファイルの行数だけ繰り返す
+        double valueData[4] = {};
+        int rowCount = parseCsv(loadedData[i],valueData);
+            if(valueData[0] >= startYear && valueData[1] >= startMonth && valueData[2] >= startDay){
+
+                if(valueData[0] <= endYear && valueData[1] <= endMonth && valueData[2] <= endDay){//指定された期間内の値を抽出
+                    printf("%d年 %d月 %d日 体重: %fkg\n",(int)valueData[0],(int)valueData[1],(int)valueData[2],valueData[3]);
+                }
+            }
+
+    }
 }
