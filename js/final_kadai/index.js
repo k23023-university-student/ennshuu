@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getDatabase, ref, push ,onValue, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -32,7 +32,7 @@ window.onload = () => {
     btnElement.value = "単語リストを読み込み中、お待ちください";
     btnElement.disabled = true;
     const descriptionArea = document.querySelector(".description");
-    //ベストを目指すモード
+    //時間無制限モード
     document.settings.set_radio[0].addEventListener('change',()=>{
         mode = 0;
         descriptionArea.textContent = "時間制限はありませんが、合計" + matigaiLimit + "回間違えるとアウトになります。間違えずにどれだけスコアを稼げるかを競います。スコアは1問10ポイントです。";
@@ -62,6 +62,7 @@ window.onload = () => {
         const disconnect = onValue(q, function(snapshot) {
         let rankValue = snapshot.val();
         if(rankValue != null){
+        //firebaseからデータを取得し表を作成する
         Object.keys(rankValue).map((key,idx)=>{
             if(idx < 10){
             let td = document.createElement("tr");
@@ -186,7 +187,7 @@ let shuffle = (arr)=>{
     return arr2;
 }
 let countdown = async (ms,callback)=>{
-    //カウンドダウン
+    //カウントダウン
     for(let i=0;i<ms/1000;i++){
         callback(ms,i);
         await new Promise((resolve)=>{setTimeout(resolve,1000)});
