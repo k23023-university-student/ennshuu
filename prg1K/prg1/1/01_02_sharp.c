@@ -2,7 +2,6 @@
 //  01_02_sharp.c
 //  prg1
 //
-//  Created by k23023kk on 2023/04/16.
 //
 
 #include <stdio.h>
