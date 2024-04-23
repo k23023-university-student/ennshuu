@@ -30,7 +30,9 @@ public class AtodashiJanken {
             if(randomNumber == convertedStr) {
                 //あいこ
                 result = "あいこ";
-            }else if((randomNumber == 0 && convertedStr == 1) || (randomNumber == 1 && convertedStr == 2) || (randomNumber == 2 && convertedStr == 0)) {
+            }else if((randomNumber == 0 && convertedStr == 1) ||
+                    (randomNumber == 1 && convertedStr == 2)
+                    || (randomNumber == 2 && convertedStr == 0)) {
                 //ユーザーが負ける
                 result = "負け";
             }else{
