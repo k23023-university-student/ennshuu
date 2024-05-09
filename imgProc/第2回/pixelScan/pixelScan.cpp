@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
 
         s[0] = s[0];
         s[1] = s[1];
-        s[2] = s[2]+30;
+        s[2] = s[2];
 
         dst_img.at<cv::Vec3b>(y,x) = s;
     }
