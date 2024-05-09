@@ -2,14 +2,13 @@
 //  04_04_convert.c
 //  prg1
 //
-//  Created by k23023kk on 2023/05/11.
 //
 
 #include <stdio.h>
 int main(int argc, const char * argv[]){
     int nx,ny;
     double dx,dy;
-    printf("nx ny?");
+    printf("nx ny? ");
     scanf("%d %d",&nx,&ny);
     dx = nx;
     dy = ny;

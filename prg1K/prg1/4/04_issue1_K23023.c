@@ -2,16 +2,15 @@
 //  04_issue1_K20000.c
 //  prg1
 //
-//  Created by k23023kk on 2023/05/11.
 //
 
 #include <stdio.h>
 int main(int argc, const char * argv[]){
     double height,weight;
     double standardWeight,bmi;
-    printf("height(centimeter)? ");
+    printf("height? ");
     scanf("%lf",&height);
-    printf("weight(kg)? ");
+    printf("weight? ");
     scanf("%lf",&weight);
     standardWeight = (height-100)*0.9;
     bmi = weight / ((height/100) * (height/100));

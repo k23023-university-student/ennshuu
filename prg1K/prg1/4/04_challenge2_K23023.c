@@ -2,27 +2,34 @@
 //  04_challenge2_K23023.c
 //  prg1
 //
-//  Created by k23023kk on 2023/05/11.
 //
 
 #include <stdio.h>
 int main(int argc, const char * argv[]){
-    int total,legs,turu,kame;
+
+    int totals,legs,crane,tortoise;
+
     printf("total? ");
-    scanf("%d",&total);
+    scanf("%d",&totals);
+
     printf("legs? ");
     scanf("%d",&legs);
+
     if(legs%2 != 0){//答えの正当性チェック
-        printf("演算エラー\n");
+        printf("cannot be combined\n");
         return 1;
     }
-    kame = (legs-2*total)/2;
-    turu = total - kame;
-    if(kame > 0 && turu > 0){
-        printf("turu = %d \nkame = %d\n",turu,kame);
+
+    tortoise = (legs-2*totals)/2;
+
+    crane = totals - tortoise;
+
+    if(tortoise > 0 && crane > 0){
+        printf("crane = %d, tortoise = %d\n",crane,tortoise);
     }else{
         printf("演算エラー");
         return 1;
     }
+
     return 0;
 }
