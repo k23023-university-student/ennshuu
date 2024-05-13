@@ -2,7 +2,7 @@
 // OpenCV用のヘッダファイル
 #include <opencv2/opencv.hpp>
 //画像ファイル (サイズは小さめが良い)
-#define FILE_NAME "./shell.jpg"
+#define FILE_NAME "./Mandrill.png"
 #define WINDOW_NAME_INPUT "input"
 #define WINDOW_NAME_OUTPUT "output"
 #define COLOR_NUM (256)
