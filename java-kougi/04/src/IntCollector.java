@@ -79,33 +79,40 @@ public class IntCollector {
 
         //テストコード
 
-        IntCollector clct1 = new IntCollector();//配列の要素を空として宣言
-        clct1.print();//[]
+        IntCollector collectTest1 = new IntCollector();//配列の要素を空として宣言
+        collectTest1.print();//[]
         //要素の追加
-        clct1.add(1);
-        clct1.add(2);
-        clct1.add(3);
-        clct1.add(4);
+        collectTest1.add(1);
+        //追加されたことを確認
+        collectTest1.print();//[1]
+        collectTest1.add(2);
+        collectTest1.add(3);
+        collectTest1.add(4);
 
-        clct1.print(); //[1, 2, 3, 4]
-        clct1.remove(3);//インデックス3番の削除
-        clct1.print();// [1, 2, 3]
-        clct1.remove(0);//先頭を削除
-        clct1.print();// [2, 3]
-        System.out.println(clct1.indexOf(2));// 0
-        System.out.println(clct1.indexOf(5));// -1
+        System.out.println(collectTest1.countOf(3));//1
 
-        clct1.add(3);
-
-        System.out.println(clct1.countOf(3));//2
+        //3の二つ目を追加
+        collectTest1.add(3);
+        System.out.println(collectTest1.countOf(3));//2
 
 
-        int [] arr1 = new int[3];
+        collectTest1.print(); //[1, 2, 3, 4, 3]
+        collectTest1.remove(3);//インデックス3番の削除
+        collectTest1.print();// [1, 2, 3, 3]
+        collectTest1.remove(0);//先頭を削除
+        collectTest1.print();// [2, 3, 3]
+
+        System.out.println(collectTest1.indexOf(2));// 0
+        System.out.println(collectTest1.indexOf(5));// -1
+
+
+
+        int [] arr1 = new int[3];//追加用の配列
         arr1[0] = 10;
         arr1[1] = 20;
         arr1[2] = 30;
 
-        IntCollector clct2 = new IntCollector(arr1);//コンストラクタありで初期化してみる
-        clct2.print();//[10, 20, 30]
+        IntCollector collectTest2 = new IntCollector(arr1);//コンストラクタありで初期化してみる
+        collectTest2.print();//[10, 20, 30]
     }
 }

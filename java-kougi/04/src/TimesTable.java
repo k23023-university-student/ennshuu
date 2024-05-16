@@ -40,7 +40,7 @@ public class TimesTable {
 
                 System.out.printf("|%d",array[h][w]);
             }
-                System.out.printf("|\n");
+                System.out.print("|\n");
 
         }
     }
@@ -52,35 +52,36 @@ public class TimesTable {
         tt1.print();//表を表示
 
 
-        System.out.print("\n");
-
-        TimesTable tt2 = new TimesTable(1,1);//1x1
+        TimesTable tt2 = new TimesTable(3, 4);//3x4
         System.out.println(Arrays.deepToString(tt2.getArray()));
         System.out.printf("高さ:%d, 幅:%d\n",tt2.getHeight(),tt2.getWidth());//高さと幅の表示メソッドの確認
         tt2.print();
+        System.out.print("\n");
+
 
         System.out.print("\n");
 
-        TimesTable tt3 = new TimesTable(0,0);//0x0
+        TimesTable tt3 = new TimesTable(1,1);//1x1
         System.out.println(Arrays.deepToString(tt3.getArray()));
         System.out.printf("高さ:%d, 幅:%d\n",tt3.getHeight(),tt3.getWidth());//高さと幅の表示メソッドの確認
         tt3.print();
 
         System.out.print("\n");
 
-        TimesTable tt4 = new TimesTable(9,9);//9x9
+        TimesTable tt4 = new TimesTable(0,0);//0x0
         System.out.println(Arrays.deepToString(tt4.getArray()));
         System.out.printf("高さ:%d, 幅:%d\n",tt4.getHeight(),tt4.getWidth());//高さと幅の表示メソッドの確認
         tt4.print();
+
         System.out.print("\n");
 
-        TimesTable tt5 = new TimesTable(3, 4);//3x4
+        TimesTable tt5 = new TimesTable(9,9);//9x9
         System.out.println(Arrays.deepToString(tt5.getArray()));
         System.out.printf("高さ:%d, 幅:%d\n",tt5.getHeight(),tt5.getWidth());//高さと幅の表示メソッドの確認
         tt5.print();
         System.out.print("\n");
 
 
-        TimesTable tt6 = new TimesTable(-9,9);//例外 java.lang.NegativeArraySizeException
+        TimesTable tt6 = new TimesTable(-1,1);//例外 java.lang.NegativeArraySizeException
     }
 }

@@ -22,13 +22,16 @@ public class Fibonacci {
         return collector;
     }
     public static void main(String[] args){
+
         Fibonacci fib = new Fibonacci();
         System.out.print("get(10000): ");
         fib.get(10000).print();// [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
-        System.out.print("get(200): ");
-        fib.get(200).print();// [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]
+        System.out.print("get(100): ");
+        fib.get(100).print();// [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
         System.out.print("get(-1): ");
         fib.get(-1).print();
+
+
         System.out.print("get(0): ");
         System.out.println(Arrays.toString(fib.get(0).getArray()));
         System.out.print("get(1): ");

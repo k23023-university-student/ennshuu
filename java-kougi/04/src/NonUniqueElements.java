@@ -16,41 +16,41 @@ public class NonUniqueElements {
     public static void main(String [] args){
 
         NonUniqueElements nuElem = new NonUniqueElements();
-        IntCollector clct1 = new IntCollector();
+        IntCollector collector1 = new IntCollector();
 
-        clct1.add(1);
-        clct1.add(2);
-        clct1.add(3);
-        clct1.add(1);
-        clct1.add(3);
+        collector1.add(1);
+        collector1.add(2);
+        collector1.add(3);
+        collector1.add(1);
+        collector1.add(3);
 
-        System.out.println(Arrays.toString(nuElem.convert(clct1).getArray())); // [1, 3, 1, 3]
+        System.out.println(Arrays.toString(nuElem.convert(collector1).getArray())); // [1, 3, 1, 3]
 
 
-        IntCollector clct2 = new IntCollector();
-        clct2.add(1);
-        clct2.add(2);
-        clct2.add(3);
-        clct2.add(4);
-        clct2.add(5);
-        System.out.println(Arrays.toString(nuElem.convert(clct2).getArray()));
+        IntCollector collector2 = new IntCollector();
+        collector2.add(1);
+        collector2.add(2);
+        collector2.add(3);
+        collector2.add(4);
+        collector2.add(5);
+        System.out.println(Arrays.toString(nuElem.convert(collector2).getArray()));
 
-        IntCollector clct3 = new IntCollector();
-        clct3.add(5);
-        clct3.add(5);
-        clct3.add(5);
-        clct3.add(5);
-        clct3.add(5);
-        System.out.println(Arrays.toString(nuElem.convert(clct3).getArray()));//[5, 5, 5, 5, 5]
+        IntCollector collector3 = new IntCollector();
+        collector3.add(5);
+        collector3.add(5);
+        collector3.add(5);
+        collector3.add(5);
+        collector3.add(5);
+        System.out.println(Arrays.toString(nuElem.convert(collector3).getArray()));//[5, 5, 5, 5, 5]
 
-        IntCollector clct4 = new IntCollector();
-        clct4.add(10);
-        clct4.add(9);
-        clct4.add(10);
-        clct4.add(10);
-        clct4.add(9);
-        clct4.add(8);
-        System.out.println(Arrays.toString(nuElem.convert(clct4).getArray()));//[10, 9, 10, 10, 9]
+        IntCollector collector4 = new IntCollector();
+        collector4.add(10);
+        collector4.add(9);
+        collector4.add(10);
+        collector4.add(10);
+        collector4.add(9);
+        collector4.add(8);
+        System.out.println(Arrays.toString(nuElem.convert(collector4).getArray()));//[10, 9, 10, 10, 9]
 
     }
 }
