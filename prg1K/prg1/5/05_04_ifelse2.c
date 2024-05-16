@@ -12,7 +12,7 @@ int main(int argc, const char * argv[]){
     scanf("%d",&a);
     printf("b? ");
     scanf("%d",&b);
-    if(a < b) printf("aはb未満です\n");
-    else printf("aはb以上です\n");
+    if(a < b) printf("a は b 未満です\n");
+    else printf("a は b 以上です\n");
     return 0;
 }

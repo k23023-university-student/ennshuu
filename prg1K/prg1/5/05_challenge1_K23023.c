@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 int main(int argc, const char * argv[]){
-    int dayOfWeek,time,isOpen;
+    int dayOfWeek,time,isOpen=0;
     printf("曜日? ");
     scanf("%d",&dayOfWeek);
     printf("時間帯? ");
@@ -19,17 +19,17 @@ int main(int argc, const char * argv[]){
     }else if(dayOfWeek == 2){//火曜
         isOpen = 1;
     }else if(dayOfWeek == 3){//水曜
-        if(time)  isOpen = 1;
+        if(time == 0)  isOpen = 1;
         else isOpen = 0;
     }else if(dayOfWeek == 4){//木曜
         isOpen = 1;
     }else if(dayOfWeek == 5){//金曜
         isOpen = 1;
     }else{//土曜
-        if(!dayOfWeek) isOpen = 1;
+        if(time == 1) isOpen = 1;
         else isOpen = 0;
     }
-    if(isOpen) printf("診察を行っています\n");
+    if(isOpen == 1) printf("診察を行っています\n");
     else printf("診察は行っていません\n");
     return 0;
 }
