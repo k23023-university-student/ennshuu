@@ -3,23 +3,23 @@ import java.util.Arrays;
 public class Fibonacci {
     public IntCollector get(int n){
 
-        IntCollector clct = new IntCollector();
-        if(n < 0) return clct;
-        clct.add(0);
-        if(n == 0) return clct;
-        clct.add(1);
-        if(n == 1) return clct;
+        IntCollector collector = new IntCollector();
+        if(n < 0) return collector;
+        collector.add(0);
+        if(n == 0) return collector;
+        collector.add(1);
+        if(n == 1) return collector;
         int count = 2;//すでに2つ挿入したのでカウンタを2に
         while(true){
-            int n_2=0,n_1 = 0;
-            n_2 = clct.getArray()[count-2];
-            n_1 = clct.getArray()[count-1];
+            int n_2,n_1;
+            n_2 = collector.getArray()[count-2];
+            n_1 = collector.getArray()[count-1];
             if(n_1 + n_2 >= n) break;
-            clct.add(n_1 + n_2);
+            collector.add(n_1 + n_2);
             count++;
         }
 
-        return clct;
+        return collector;
     }
     public static void main(String[] args){
         Fibonacci fib = new Fibonacci();
