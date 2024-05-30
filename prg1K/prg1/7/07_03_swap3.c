@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main(int argc, const char * argv[]){
     int x,y,z,temp;
-    printf("x y z?");
+    printf("x y z? ");
     scanf("%d %d %d",&x,&y,&z);
     if(x > y){
         temp = x;

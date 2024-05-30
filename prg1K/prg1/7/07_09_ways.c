@@ -4,8 +4,8 @@ int main(int argc, const char * argv[]){
     printf("n x? ");
     scanf("%d %d",&n,&x);
     for(int i=1;i<=n;i++){
-        for(int j=i;j<=n;j++){
-            for(int k=j;k<=n;k++){
+        for(int j=1;j<=n;j++){
+            for(int k=1;k<=n;k++){
                 
                 if(i+j+k == x){
                     printf("%d%d%d\n",i,j,k);

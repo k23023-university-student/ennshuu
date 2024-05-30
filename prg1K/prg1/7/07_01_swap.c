@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main(int argc, const char * argv[]){
     int x,y,temp;
-    printf("x y?");
+    printf("x y? ");
     scanf("%d %d",&x,&y);
     temp = x;
     x = y;
