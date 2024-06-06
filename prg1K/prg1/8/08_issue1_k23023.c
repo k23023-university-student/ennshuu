@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main(int argc, const char * argv[]){
     int wallet=1000,amount,bank=1000;
-    while(wallet >= 0 && bank >= 0){
+    while(wallet > 0 && bank > 0){
         printf("amount? ");
         scanf("%d",&amount);
         if(amount == 0){
