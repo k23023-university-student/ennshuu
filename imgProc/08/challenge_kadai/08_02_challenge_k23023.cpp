@@ -12,7 +12,7 @@ int main(int argc, const char *argv[])
 {
 
     // 画像の入力
-    cv::Mat src_img, R_img,G_img,B_img; // 画像の型と変数
+    cv::Mat src_img;
 
     src_img = cv::imread(FILE_NAME, cv::IMREAD_COLOR); // 画像の読み込み
 
@@ -21,13 +21,12 @@ int main(int argc, const char *argv[])
         fprintf(stderr, "File is not opened.\n");
         return (-1);
     }
+    cv::Mat R_img = cv::Mat(src_img.size(), CV_8UC3);
+    cv::Mat G_img = cv::Mat(src_img.size(), CV_8UC3);
+    cv::Mat B_img = cv::Mat(src_img.size(), CV_8UC3);
 
     //輝度画像へ変換
     // cv::cvtColor(src_img, gray_img, cv::COLOR_BGR2GRAY);
-
-    R_img.create(src_img.size(), src_img.type());
-    G_img.create(src_img.size(), src_img.type());
-    B_img.create(src_img.size(), src_img.type());
 
     int histR[COLOR_MAX],histG[COLOR_MAX],histB[COLOR_MAX];//ヒストグラム用配列
 
