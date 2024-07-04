@@ -1,3 +1,5 @@
+package jp.ac.ait.k23023;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -15,14 +17,14 @@ public class AichiTouristSpot {
     double AIT_KEIDO = 137.1130419;//型が統一されていないので注意
     double AIT_IDO = 35.1834122;//型が統一されていないので注意
     private enum FilesList {
-        c200326("./c200326.csv"),
-        c200328("./c200328.csv"),
-        c200329("./c200329.csv"),
-        c200330("./c200330.csv"),
-        c200361("./c200361.csv"),
-        c200362("./c200362.csv"),
-        c200363("./c200363.csv"),
-        c200364("./c200364.csv");
+        c200326("./files/c200326.csv"),
+        c200328("./files/c200328.csv"),
+        c200329("./files/c200329.csv"),
+        c200330("./files/c200330.csv"),
+        c200361("./files/c200361.csv"),
+        c200362("./files/c200362.csv"),
+        c200363("./files/c200363.csv"),
+        c200364("./files/c200364.csv");
 
         private String path;
         FilesList(String path) {
