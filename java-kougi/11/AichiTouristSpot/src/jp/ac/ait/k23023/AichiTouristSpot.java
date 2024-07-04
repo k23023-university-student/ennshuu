@@ -14,27 +14,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AichiTouristSpot {
-    double AIT_KEIDO = 137.1130419;//型が統一されていないので注意
-    double AIT_IDO = 35.1834122;//型が統一されていないので注意
-    private enum FilesList {
-        c200326("./files/c200326.csv"),
-        c200328("./files/c200328.csv"),
-        c200329("./files/c200329.csv"),
-        c200330("./files/c200330.csv"),
-        c200361("./files/c200361.csv"),
-        c200362("./files/c200362.csv"),
-        c200363("./files/c200363.csv"),
-        c200364("./files/c200364.csv");
+    double AIT_KEIDO = 137.1130419;
+    double AIT_IDO = 35.1834122;
 
-        private String path;
-        FilesList(String path) {
-            this.path = path;
-        }
+    private static final String[] FILES_LIST = {
+            "./files/c200326.csv",
+            "./files/c200328.csv",
+            "./files/c200329.csv",
+            "./files/c200330.csv",
+            "./files/c200361.csv",
+            "./files/c200362.csv",
+            "./files/c200363.csv",
+            "./files/c200364.csv"
+    };
 
-        public String getPath() {
-            return path;
-        }
-    }
     //出力データの形式
     private record OutDataCols(
             BigDecimal ido,
@@ -43,14 +36,13 @@ public class AichiTouristSpot {
             String name
     ){}
 
-    private  record Point(
-          BigDecimal ido,
-          BigDecimal keido
+    private record Point(
+            BigDecimal ido,
+            BigDecimal keido
     ){}
 
     private Point parsePoint(String pointString){
         //Pointの装飾データを削除するコード
-
         String keido = pointString.split(" ")[0];
         keido = keido.replace("POINT(","");
         String ido = pointString.split(" ")[1];
@@ -61,82 +53,60 @@ public class AichiTouristSpot {
     }
 
     private double getDistance(Point p){
-
-
         double doubleIdo = p.ido().doubleValue();
-
         double doubleKeido = p.keido().doubleValue();
-        double returnValue = Math.sqrt(Math.pow((AIT_IDO-doubleIdo),2) + Math.pow((AIT_KEIDO-doubleKeido),2));
-        return returnValue;
-
+        return Math.sqrt(Math.pow((AIT_IDO - doubleIdo), 2) + Math.pow((AIT_KEIDO - doubleKeido), 2));
     }
 
-    public List<OutDataCols> readFiles(FilesList enumCols){
-        List<OutDataCols> result = new ArrayList<OutDataCols>();
-        try(Scanner sc =
-                    new Scanner(Files.newBufferedReader(Path.of(enumCols.getPath()), Charset.forName("ms932"))
-                    )) {
-
-            sc.nextLine();//ヘッダー行はなし
+    public List<OutDataCols> readFiles(String filePath){
+        List<OutDataCols> result = new ArrayList<>();
+        try(Scanner sc = new Scanner(Files.newBufferedReader(Path.of(filePath), Charset.forName("ms932")))) {
+            sc.nextLine(); //ヘッダー行はなし
 
             while (sc.hasNextLine()){
-
                 String lineString = sc.nextLine();
-
                 String[] fields = lineString.split(",");
-                String point = fields[1];//座標
-                String name = switch (enumCols) {
-                    case c200328 -> fields[2];
-                    case c200326, c200329, c200330 -> fields[3];
-                    case c200361 -> fields[4];
-                    case c200362, c200363, c200364 -> fields[5];
-                };
+                String point = fields[1]; //座標
+
+                String name;
+                if (filePath.contains("c200328")) {
+                    name = fields[2];
+                } else if (filePath.contains("c200326") || filePath.contains("c200329") || filePath.contains("c200330")) {
+                    name = fields[3];
+                } else if (filePath.contains("c200361")) {
+                    name = fields[4];
+                } else {
+                    name = fields[5];
+                }
 
                 Point pointObj = parsePoint(point);
-
                 BigDecimal distance = new BigDecimal(getDistance(pointObj));
-                result.add(new OutDataCols(pointObj.ido(),pointObj.keido(),distance,name));
+                result.add(new OutDataCols(pointObj.ido(), pointObj.keido(), distance, name));
             }
 
-        }catch (IOException e){
-
+        } catch (IOException e){
             throw new UncheckedIOException(e);
         }
         return result;
     }
 
-
-
-
     public static void main(String[] args){
-
         AichiTouristSpot aichi = new AichiTouristSpot();
-        List<OutDataCols> data = new ArrayList<OutDataCols>();
-        for(FilesList file : FilesList.values()){
+        List<OutDataCols> data = new ArrayList<>();
 
+        for(String file : FILES_LIST){
             data.addAll(aichi.readFiles(file));
-
         }
 
-//        data.sort(new Comparator<OutDataCols>() {
-//            @Override
-//            public int compare(OutDataCols o1, OutDataCols o2) {
-//                return o1.distance().subtract(o2.distance()).doubleValue() < 0 ? -1 : 0;
-//            }
-//        });
         data.sort(Comparator.comparing(OutDataCols::distance));
+
         try(BufferedWriter bw = Files.newBufferedWriter(Path.of("./out.csv"))) {
-
-
             for(OutDataCols dc : data){
-                bw.write(String.format("%s,%s,%s,%s",dc.ido(),dc.keido(),dc.distance(),dc.name()));
+                bw.write(String.format("%s,%s,%s,%s", dc.ido(), dc.keido(), dc.distance(), dc.name()));
                 bw.newLine();
             }
-
-        }catch (IOException e){
-
+        } catch (IOException e){
             throw new UncheckedIOException(e);
         }
     }
-
 }
