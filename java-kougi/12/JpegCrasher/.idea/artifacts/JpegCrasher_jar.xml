@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JpegCrasher:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JpegCrasher_jar</output-path>
+    <root id="archive" name="JpegCrasher.jar">
+      <element id="module-output" name="JpegCrasher" />
+    </root>
+  </artifact>
+</component>
