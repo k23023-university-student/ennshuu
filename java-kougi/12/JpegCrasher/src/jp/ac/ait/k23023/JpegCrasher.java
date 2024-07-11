@@ -15,8 +15,6 @@ public class JpegCrasher {
      * メインメソッド
      */
     public static void main(String[] args) {
-        String input;
-        String output;
 
         if(args.length < 2) return;//ファイル名が引数で指定されなければ終了
 
