@@ -8,7 +8,7 @@
 
 // テンプレート画像
 #define TEMPLATE_IMG_FILE "red_fish.jpg"
-#define MAX_H (180)
+#define MAX_H (181)//Hの最大値=1
 #define BIN_TH (20)
 
 int main(int argc, const char *argv[])
