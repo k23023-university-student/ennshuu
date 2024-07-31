@@ -1,6 +1,7 @@
 
 #!/bin/bash
 
+
 # コピー先のディレクトリ
 destination="copiedFiles"
 
@@ -11,7 +12,7 @@ fi
 
 # サブディレクトリ内を探索
 for file in $(find . -type f -name "issue*_k23023.cpp" -o -name "issue*_result_k23023.png"); do
-    cp "$file" "$destination"
+    rsync -av "$file" "$destination"
 done
 
 echo "ファイルのコピーが完了しました。"
