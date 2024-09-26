@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SimpleHTTPServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SimpleHTTPServer_jar</output-path>
+    <root id="archive" name="SimpleHTTPServer.jar">
+      <element id="module-output" name="SimpleHTTPServer" />
+    </root>
+  </artifact>
+</component>

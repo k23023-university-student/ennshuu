@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LightsOut:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LightsOut_jar</output-path>
+    <root id="archive" name="LightsOut.jar">
+      <element id="module-output" name="LightsOut" />
+    </root>
+  </artifact>
+</component>

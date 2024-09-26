@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="HtmlGetter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/HtmlGetter_jar</output-path>
+    <root id="archive" name="HtmlGetter.jar">
+      <element id="module-output" name="HtmlGetter" />
+    </root>
+  </artifact>
+</component>

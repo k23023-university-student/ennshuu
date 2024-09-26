@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ClickCounter:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ClickCounter_jar</output-path>
+    <root id="archive" name="ClickCounter.jar">
+      <element id="module-output" name="ClickCounter" />
+    </root>
+  </artifact>
+</component>
